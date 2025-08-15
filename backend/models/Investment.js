@@ -1,7 +1,7 @@
 // backend/models/investment.js
 const mongoose = require('mongoose');
 
-const investmentSchema = new mongoose.Schema({
+const InvestmentSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -17,4 +17,4 @@ const investmentSchema = new mongoose.Schema({
 });
 
 // Prevent OverwriteModelError by reusing existing model if present
-module.exports = mongoose.models.Investment || mongoose.model('Investment', investmentSchema);
+module.exports = mongoose.models.Investment || mongoose.model('Investment', InvestmentSchema);

@@ -1,14 +1,15 @@
-// src/api.js
 import axios from 'axios';
 
-// Use deployed backend URL in production
-const API_BASE = process.env.REACT_APP_API_URL 
-  || (process.env.NODE_ENV === 'production' 
-      ? 'https://harish-mobileshop.vercel.app/api' 
-      : 'http://localhost:5000/api');
+// Base API URL — Vercel in prod, localhost in dev
+const API_BASE =
+  process.env.REACT_APP_API_URL ||
+  (process.env.NODE_ENV === 'production'
+    ? 'https://harish-mobileshop.vercel.app/api'
+    : 'http://localhost:5000/api');
 
 const axiosInstance = axios.create({ baseURL: API_BASE });
 
+// Attach auth token if present
 axiosInstance.interceptors.request.use(
   config => {
     const token = localStorage.getItem('authToken');
@@ -18,8 +19,8 @@ axiosInstance.interceptors.request.use(
   error => Promise.reject(error)
 );
 
-// Public product fetch for the public website (no auth required)
-export const fetchPublicProducts = () => axios.get(`${API_BASE.replace('/api', '')}/api/public/products`);
+// Public product fetch (no auth)
+export const fetchPublicProducts = () => axiosInstance.get('/public/products');
 
 // Authenticated backend API calls
 export const fetchBills = () => axiosInstance.get('/bills');
@@ -35,5 +36,5 @@ export const updateService = (id, data) => axiosInstance.put(`/services/${id}`, 
 export const fetchInvestments = () => axiosInstance.get('/investments');
 export const createInvestment = (data) => axiosInstance.post('/investments', data);
 export const updateInvestment = (id, data) => axiosInstance.put(`/investments/${id}`, data);
-export const fetchProfit = (type, date) => axiosInstance.get('/profits', { params: { type, date }});
+export const fetchProfit = (type, date) => axiosInstance.get('/profits', { params: { type, date } });
 export const recalculateProfits = () => axiosInstance.post('/profits/recalculate');
