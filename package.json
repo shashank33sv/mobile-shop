@@ -1,0 +1,21 @@
+{
+  "name": "mobileshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+ "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "build:client": "npm run build --prefix frontend",
+    "build": "npm run build:client",
+    "start:prod": "npm run build && npm run start:server:prod",
+    "start:server:prod": "node backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
